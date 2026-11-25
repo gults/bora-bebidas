@@ -35,7 +35,7 @@ IMG_DIR.mkdir(exist_ok=True)
 LOJA_WHATSAPP = ""        # Ex.: "11999998888" (só números, com DDD). Deixe "" para não mostrar.
 TAXA_ENTREGA_PADRAO = 0.0  # Taxa aplicada automaticamente nas entregas. 0 = "a combinar".
 # Senha inicial do painel: guardada só como HASH (PBKDF2). O sistema exige trocá-la no primeiro acesso.
-INITIAL_PASSWORD_HASH = "pbkdf2_sha256$260000$346cc383c7505d6996c4d2026af325b1$08be813b860006f8ac08f0cc900623a62d506ae203e7cb0a86a267a9867a65ab"
+INITIAL_PASSWORD_HASH = "pbkdf2_sha256$260000$5ca1b59586f809990a07ba4d4fd2f568$6af851ffd136306cbf4a4d690b1a7a4632369c3390bc879926e7a25d0c879e47"
 PBKDF2_ITER = 260_000
 SESSION_IDLE_MIN = 30      # sessão do painel expira após 30 min sem uso
 SESSION_MAX_HOURS = 8      # e, no máximo, 8 horas depois do login
@@ -217,6 +217,408 @@ div.stButton > button:active {transform:scale(.97);}
 [class*="st-key-cart_box"] [data-testid="stNumberInput"] button {background:#FFD600 !important;color:#171717 !important;border-color:#FFD600 !important;}
 [class*="st-key-cart_box"] button[data-testid="stBaseButton-secondary"] {background:#FFD600;color:#171717;border:0;font-weight:800;}
 [class*="st-key-cart_box"] button[data-testid="stBaseButton-secondary"] p {color:#171717;}
+
+/* ---- BORA BEBIDAS | acabamento visual e estados de interação ---- */
+:root {--bora-yellow:#FFD600;--bora-ink:#171717;--bora-paper:#F7F7F3;--bora-line:#E7E7E0;}
+.stApp {background:radial-gradient(ellipse at 12% 0%,rgba(255,214,0,.055),transparent 34%),var(--bora-paper);}
+.block-container {padding-bottom:4rem !important;}
+.topbar {border-radius:20px;box-shadow:0 12px 32px rgba(23,23,23,.13);}
+.hero {box-shadow:0 16px 38px rgba(23,23,23,.12);}
+.product {box-shadow:0 3px 12px rgba(23,23,23,.035);}
+.product:hover {transform:translateY(-5px);box-shadow:0 16px 34px rgba(23,23,23,.12);}
+/* Menu em formato de cápsulas: hover nunca apaga o texto. */
+.st-key-page label, .st-key-cat_chip label, .st-key-adm_page label {
+  transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease;
+}
+.st-key-page label:hover, .st-key-cat_chip label:hover, .st-key-adm_page label:hover {
+  background:#FFF6C7 !important;border-color:#E8C400 !important;transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(23,23,23,.07);
+}
+.st-key-page label:hover p, .st-key-cat_chip label:hover p, .st-key-adm_page label:hover p {color:#171717 !important;}
+.st-key-page label:has(input:checked):hover p, .st-key-cat_chip label:has(input:checked):hover p,
+.st-key-adm_page label:has(input:checked):hover p {color:#FFD600 !important;}
+/* Botões primários, secundários, formulários e downloads com contraste consistente. */
+div.stButton > button, div.stDownloadButton > button,
+button[data-testid^="stBaseButton"], button[kind="primaryFormSubmit"] {
+  border-radius:12px !important;font-weight:750 !important;min-height:42px;
+  transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease !important;
+}
+div.stButton > button[kind="primary"], div.stButton > button[data-testid="stBaseButton-primary"],
+button[kind="primaryFormSubmit"],button[data-testid="stBaseButton-primaryFormSubmit"] {
+  background:#FFD600 !important;color:#171717 !important;border:1px solid #FFD600 !important;
+}
+div.stButton > button[kind="primary"]:hover, div.stButton > button[data-testid="stBaseButton-primary"]:hover,
+button[kind="primaryFormSubmit"]:hover,button[data-testid="stBaseButton-primaryFormSubmit"]:hover {
+  background:#F2C900 !important;color:#171717 !important;border-color:#DDB900 !important;
+  box-shadow:0 7px 17px rgba(210,170,0,.22) !important;transform:translateY(-2px);
+}
+div.stButton > button[kind="secondary"],div.stButton > button[data-testid="stBaseButton-secondary"],
+div.stDownloadButton > button,button[data-testid="stBaseButton-secondary"] {
+  background:#FFFFFF !important;color:#171717 !important;border:1px solid #DEDED6 !important;
+}
+div.stButton > button[kind="secondary"]:hover,div.stButton > button[data-testid="stBaseButton-secondary"]:hover,
+div.stDownloadButton > button:hover,button[data-testid="stBaseButton-secondary"]:hover {
+  background:#FFF4B8 !important;color:#171717 !important;border-color:#E3C000 !important;
+  box-shadow:0 6px 15px rgba(23,23,23,.08) !important;transform:translateY(-2px);
+}
+/* Texto interno acompanha o contraste do botão, inclusive spans usados pelo Streamlit. */
+div.stButton > button[kind="primary"] *,div.stButton > button[data-testid="stBaseButton-primary"] *,
+button[kind="primaryFormSubmit"] *,button[data-testid="stBaseButton-primaryFormSubmit"] * {color:#171717 !important;}
+div.stButton > button[kind="secondary"] *,div.stButton > button[data-testid="stBaseButton-secondary"] *,
+div.stDownloadButton > button * {color:#171717 !important;}
+div.stButton > button:focus-visible,div.stDownloadButton > button:focus-visible,
+.st-key-page label:focus-within,.st-key-cat_chip label:focus-within {outline:3px solid rgba(255,214,0,.55) !important;outline-offset:2px;}
+[data-testid="stForm"] {padding:16px;border-radius:18px;box-shadow:0 5px 18px rgba(23,23,23,.035);}
+[data-baseweb="input"]:focus-within,[data-baseweb="select"]:focus-within {box-shadow:0 0 0 3px rgba(255,214,0,.22) !important;border-color:#D9B600 !important;}
+.stTabs [data-baseweb="tab"] {transition:color .18s ease;}
+.stTabs [data-baseweb="tab"]:hover {color:#9A7800 !important;}
+@keyframes boraAppear {from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.hero,.metric-card,.dcard {animation:boraAppear .42s ease both;}
+@media(max-width:640px){.topbar{box-shadow:0 8px 20px rgba(23,23,23,.12)}.product{border-radius:15px}.hero{box-shadow:0 10px 24px rgba(23,23,23,.12)}}
+
+
+/* BORA BEBIDAS — correção definitiva do estado selecionado dos menus */
+.st-key-page div[role="radiogroup"],
+.st-key-cat_chip div[role="radiogroup"],
+.st-key-adm_page div[role="radiogroup"] {align-items:center;gap:10px !important;}
+.st-key-page label,
+.st-key-cat_chip label,
+.st-key-adm_page label {
+  min-height:42px !important;display:flex !important;align-items:center !important;
+  justify-content:center !important;padding:9px 18px !important;
+  background:#fff !important;border:1px solid #e5e2d8 !important;
+  border-radius:999px !important;box-shadow:0 2px 7px rgba(20,20,20,.035);
+}
+.st-key-page label p,
+.st-key-cat_chip label p,
+.st-key-adm_page label p {
+  display:block !important;visibility:visible !important;opacity:1 !important;
+  color:#222 !important;font-weight:700 !important;margin:0 !important;
+}
+.st-key-page label:has(input:checked),
+.st-key-cat_chip label:has(input:checked),
+.st-key-adm_page label:has(input:checked) {
+  background:#FFD600 !important;border:1px solid #E3B900 !important;
+  box-shadow:0 5px 14px rgba(204,164,0,.2) !important;
+}
+.st-key-page label:has(input:checked) *,
+.st-key-cat_chip label:has(input:checked) *,
+.st-key-adm_page label:has(input:checked) * {
+  color:#171717 !important;-webkit-text-fill-color:#171717 !important;
+}
+.st-key-page label:hover,
+.st-key-cat_chip label:hover,
+.st-key-adm_page label:hover,
+.st-key-page label:focus-within,
+.st-key-cat_chip label:focus-within,
+.st-key-adm_page label:focus-within,
+.st-key-page label:active,
+.st-key-cat_chip label:active,
+.st-key-adm_page label:active {
+  background:#FFF1A6 !important;border-color:#D7AE00 !important;
+}
+.st-key-page label:has(input:checked):hover,
+.st-key-cat_chip label:has(input:checked):hover,
+.st-key-adm_page label:has(input:checked):hover,
+.st-key-page label:has(input:checked):focus-within,
+.st-key-cat_chip label:has(input:checked):focus-within,
+.st-key-adm_page label:has(input:checked):focus-within,
+.st-key-page label:has(input:checked):active,
+.st-key-cat_chip label:has(input:checked):active,
+.st-key-adm_page label:has(input:checked):active {
+  background:#FFD600 !important;border-color:#D7AE00 !important;
+}
+.st-key-page label:has(input:checked) p,
+.st-key-cat_chip label:has(input:checked) p,
+.st-key-adm_page label:has(input:checked) p,
+.st-key-page label:has(input:checked):hover p,
+.st-key-cat_chip label:has(input:checked):hover p,
+.st-key-adm_page label:has(input:checked):hover p {
+  color:#171717 !important;-webkit-text-fill-color:#171717 !important;
+}
+/* Botões: estados normal, hover, foco, pressionado e selecionado mantêm contraste */
+.stApp button,
+.stApp button *,
+.stApp [role="button"],
+.stApp [role="button"] * {
+  transition:background-color .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease !important;
+}
+.stApp div.stButton > button:focus,
+.stApp div.stButton > button:focus-visible,
+.stApp div.stButton > button:active,
+.stApp div.stDownloadButton > button:focus,
+.stApp div.stDownloadButton > button:active {
+  color:#171717 !important;outline:3px solid rgba(255,214,0,.35) !important;outline-offset:2px;
+}
+.stApp div.stButton > button:focus *,
+.stApp div.stButton > button:active *,
+.stApp div.stDownloadButton > button:focus *,
+.stApp div.stDownloadButton > button:active * {
+  color:inherit !important;-webkit-text-fill-color:currentColor !important;
+}
+/* Refinamento geral */
+.topbar {margin-bottom:20px !important;padding:20px 28px !important;}
+.hero {margin-top:18px !important;border-radius:24px !important;}
+.product {border-radius:20px !important;}
+.product .body {padding:16px 18px !important;}
+.stApp [data-testid="stVerticalBlock"] > [data-testid="stHorizontalBlock"] {gap:1rem;}
+[data-testid="stForm"] {border:1px solid #e9e5d9 !important;box-shadow:0 10px 28px rgba(20,20,20,.045) !important;}
+.stApp input, .stApp textarea {border-radius:12px !important;}
+@media(max-width:640px) {
+ .st-key-page label,.st-key-cat_chip label,.st-key-adm_page label {padding:9px 13px !important;min-height:42px !important;}
+ .topbar {padding:15px 17px !important;}
+}
+
+
+/* BORA BEBIDAS — direção visual premium, clean e comercial */
+:root {
+  --bora-yellow:#FFD600;
+  --bora-amber:#F4B400;
+  --bora-black:#151515;
+  --bora-muted:#77766F;
+  --bora-bg:#F5F5F1;
+  --bora-border:#E9E7DE;
+}
+.stApp {
+  background:
+    radial-gradient(circle at 88% 4%,rgba(255,214,0,.11),transparent 23rem),
+    linear-gradient(180deg,#FAFAF7 0%,#F3F3EF 100%) !important;
+}
+.block-container {max-width:1320px !important;padding-top:1.15rem !important;padding-bottom:4rem !important;}
+.topbar {
+  min-height:78px;display:flex;align-items:center;
+  background:linear-gradient(110deg,#111 0%,#202020 72%,#29251a 100%) !important;
+  border:1px solid rgba(255,255,255,.07);border-bottom:5px solid var(--bora-yellow) !important;
+  border-radius:20px !important;padding:17px 26px !important;margin-bottom:20px !important;
+  box-shadow:0 12px 30px rgba(0,0,0,.13) !important;
+}
+.brand {font-size:29px !important;letter-spacing:3.2px !important;}
+.brand small {font-size:10px !important;letter-spacing:2.1px !important;color:#D9D9D9 !important;}
+.hero {
+  min-height:270px;display:flex;flex-direction:column;justify-content:center;
+  background:linear-gradient(115deg,#151515 0%,#1B1B1B 62%,#28220A 100%) !important;
+  border:1px solid rgba(255,214,0,.13);border-radius:26px !important;
+  padding:38px 42px !important;margin:12px 0 25px !important;
+  box-shadow:0 18px 42px rgba(0,0,0,.12) !important;
+}
+.hero:before {
+  width:34% !important;opacity:.95;
+  background:linear-gradient(140deg,#FFD600,#F3A900) !important;
+  clip-path:polygon(48% 0,100% 0,100% 100%,0 100%) !important;
+}
+.hero-tag {font-size:10px !important;letter-spacing:2.3px !important;padding:8px 13px !important;border-radius:7px !important;}
+.hero h1 {font-size:clamp(34px,4.2vw,54px) !important;line-height:1.02 !important;letter-spacing:-1.8px !important;}
+.hero p {font-size:16px !important;line-height:1.65 !important;color:#E2E2E2 !important;}
+.hero-points span {border-color:rgba(255,255,255,.2) !important;background:rgba(255,255,255,.055);backdrop-filter:blur(8px);}
+.st-key-page div[role="radiogroup"] {
+  display:flex;gap:10px !important;flex-wrap:wrap;padding:5px 0 12px;
+}
+.st-key-page label {
+  min-height:44px !important;padding:10px 20px !important;
+  border-radius:999px !important;background:#fff !important;
+  border:1px solid #E2E0D7 !important;box-shadow:0 3px 10px rgba(0,0,0,.035);
+}
+.st-key-page label p {font-size:14px !important;font-weight:750 !important;color:#222 !important;}
+.st-key-page label:has(input:checked) {
+  background:#171717 !important;border-color:#171717 !important;
+  box-shadow:0 6px 16px rgba(0,0,0,.16) !important;
+}
+.st-key-page label:has(input:checked) p,
+.st-key-page label:has(input:checked) * {color:#FFD600 !important;-webkit-text-fill-color:#FFD600 !important;}
+.st-key-page label:hover {background:#FFF4B5 !important;border-color:#E2BD00 !important;}
+.st-key-page label:has(input:checked):hover {background:#171717 !important;}
+.st-key-page label:has(input:checked):hover p,
+.st-key-page label:has(input:checked):hover * {color:#FFD600 !important;-webkit-text-fill-color:#FFD600 !important;}
+/* Busca, filtros e seleção */
+.stApp [data-baseweb="input"] > div,
+.stApp [data-baseweb="select"] > div,
+.stApp textarea {
+  background:#fff !important;border:1px solid #E5E2D8 !important;border-radius:13px !important;
+  box-shadow:0 3px 10px rgba(0,0,0,.025);
+}
+.stApp [data-baseweb="input"]:focus-within,
+.stApp [data-baseweb="select"]:focus-within {border-color:#D8B400 !important;box-shadow:0 0 0 3px rgba(255,214,0,.18) !important;}
+.st-key-cat_chip label {background:#fff !important;border:1px solid #E5E2D8 !important;}
+.st-key-cat_chip label:has(input:checked) {background:#FFD600 !important;border-color:#E0B900 !important;}
+.st-key-cat_chip label:has(input:checked) * {color:#171717 !important;-webkit-text-fill-color:#171717 !important;}
+/* Produtos: cartão de loja com hierarquia e respiro */
+.product {
+  background:#fff !important;border:1px solid #E9E6DC !important;border-radius:20px !important;
+  box-shadow:0 5px 18px rgba(25,25,20,.045) !important;overflow:hidden;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease !important;
+}
+.product:hover {
+  transform:translateY(-5px) !important;border-color:#E6C500 !important;
+  box-shadow:0 17px 34px rgba(25,25,20,.11) !important;
+}
+.product .media {height:220px !important;background:linear-gradient(145deg,#F8F8F4,#EFEFE9) !important;}
+.product .body {padding:17px 18px 16px !important;border-top:3px solid #FFD600 !important;}
+.product .name {font-size:17px !important;line-height:1.35 !important;}
+.product .muted {font-size:10px !important;letter-spacing:1.2px !important;}
+.price {font-size:22px !important;padding:5px 12px !important;border-radius:9px !important;}
+/* Ações com estilo consistente em todos os estados */
+.stApp div.stButton > button,
+.stApp div.stDownloadButton > button,
+.stApp button[data-testid^="stBaseButton"] {
+  min-height:44px !important;border-radius:12px !important;font-weight:800 !important;
+  letter-spacing:.1px;box-shadow:0 3px 9px rgba(0,0,0,.045);
+}
+.stApp div.stButton > button[kind="primary"],
+.stApp div.stButton > button[data-testid="stBaseButton-primary"],
+.stApp button[data-testid="stBaseButton-primaryFormSubmit"] {
+  background:#FFD600 !important;color:#171717 !important;border:1px solid #E7C000 !important;
+}
+.stApp div.stButton > button[kind="primary"] *,
+.stApp div.stButton > button[data-testid="stBaseButton-primary"] *,
+.stApp button[data-testid="stBaseButton-primaryFormSubmit"] * {
+  color:#171717 !important;-webkit-text-fill-color:#171717 !important;
+}
+.stApp div.stButton > button[kind="primary"]:hover,
+.stApp div.stButton > button[data-testid="stBaseButton-primary"]:hover {
+  background:#F2C900 !important;color:#171717 !important;transform:translateY(-2px);
+  box-shadow:0 8px 18px rgba(200,160,0,.22) !important;
+}
+.stApp div.stButton > button[kind="secondary"],
+.stApp div.stButton > button[data-testid="stBaseButton-secondary"] {
+  background:#fff !important;color:#171717 !important;border:1px solid #DEDCD3 !important;
+}
+.stApp div.stButton > button[kind="secondary"] *,
+.stApp div.stButton > button[data-testid="stBaseButton-secondary"] * {color:#171717 !important;-webkit-text-fill-color:#171717 !important;}
+.stApp div.stButton > button[kind="secondary"]:hover {
+  background:#FFF4B8 !important;color:#171717 !important;border-color:#DDB900 !important;
+}
+.cartbar {background:linear-gradient(90deg,#FFD600,#FFE45A) !important;border:0 !important;border-radius:14px !important;padding:14px 18px !important;box-shadow:0 7px 18px rgba(190,150,0,.13);}
+.stApp h2,.stApp h3 {letter-spacing:-.45px !important;}
+.stApp h3 {margin-top:1.1rem !important;margin-bottom:.8rem !important;}
+[data-testid="stForm"] {background:rgba(255,255,255,.88) !important;border:1px solid #E9E6DC !important;border-radius:18px !important;padding:20px !important;}
+.metric-card,.dcard {box-shadow:0 4px 14px rgba(0,0,0,.035);}
+.footer {padding-top:18px;border-top:1px solid #E5E2D9;letter-spacing:2px !important;}
+@media(max-width:900px) {
+ .hero:before {opacity:.12 !important;width:100% !important;clip-path:none !important;}
+ .hero h1,.hero p {max-width:100% !important;}
+}
+@media(max-width:640px) {
+ .block-container {padding-left:.8rem !important;padding-right:.8rem !important;}
+ .hero {padding:27px 21px !important;min-height:240px;}
+ .hero h1 {font-size:32px !important;}
+ .product .media {height:175px !important;}
+ .st-key-page label {padding:9px 14px !important;}
+}
+
+/* Remove apenas os rótulos decorativos dos seletores de navegação.
+   Mantém as opções funcionais da loja e do painel. */
+.st-key-page [data-testid="stWidgetLabel"],
+.st-key-adm_page [data-testid="stWidgetLabel"] {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.st-key-page > div:first-child,
+.st-key-adm_page > div:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+/* CHECKOUT: formulário claro e legível dentro do cartão escuro */
+.st-key-cart_box_form [data-testid="stForm"] {
+  background:#FFFFFF !important;
+  border:1px solid #E5E2D8 !important;
+  border-radius:14px !important;
+  padding:16px !important;
+}
+.st-key-cart_box_form [data-testid="stWidgetLabel"],
+.st-key-cart_box_form [data-testid="stWidgetLabel"] *,
+.st-key-cart_box_form label,
+.st-key-cart_box_form label * {
+  color:#222222 !important;
+  -webkit-text-fill-color:#222222 !important;
+}
+.st-key-cart_box_form input,
+.st-key-cart_box_form textarea,
+.st-key-cart_box_form [data-baseweb="select"] *,
+.st-key-cart_box_form [data-baseweb="input"] * {
+  color:#222222 !important;
+  -webkit-text-fill-color:#222222 !important;
+  caret-color:#222222 !important;
+}
+.st-key-cart_box_form [data-baseweb="input"] > div,
+.st-key-cart_box_form [data-baseweb="base-input"],
+.st-key-cart_box_form [data-baseweb="select"] > div,
+.st-key-cart_box_form textarea,
+.st-key-cart_box_form input {
+  background:#FFFFFF !important;
+  border-color:#CFCFCF !important;
+}
+.st-key-cart_box_form input::placeholder,
+.st-key-cart_box_form textarea::placeholder {
+  color:#777777 !important;
+  -webkit-text-fill-color:#777777 !important;
+  opacity:1 !important;
+}
+.st-key-cart_box_form [data-testid="stFormSubmitButton"] button {
+  background:#FFD600 !important;
+  color:#171717 !important;
+  border:0 !important;
+  font-weight:800 !important;
+}
+.st-key-cart_box_form [data-testid="stFormSubmitButton"] button * {
+  color:#171717 !important;
+  -webkit-text-fill-color:#171717 !important;
+}
+/* CHECKOUT PREMIUM: campos de quantidade, data e horário sempre legíveis */
+.stApp [class*="st-key-cart_box"] [data-testid="stNumberInput"] [data-baseweb="input"],
+.stApp [class*="st-key-cart_box"] [data-testid="stDateInput"] [data-baseweb="input"],
+.stApp [class*="st-key-cart_box"] [data-testid="stTimeInput"] [data-baseweb="input"],
+.stApp [class*="st-key-cart_box"] [data-testid="stDateInput"] [data-baseweb="input"] > div,
+.stApp [class*="st-key-cart_box"] [data-testid="stTimeInput"] [data-baseweb="input"] > div,
+.stApp [class*="st-key-cart_box"] [data-testid="stNumberInput"] [data-baseweb="input"] > div {
+  background:#FFFFFF !important;
+  border:1px solid #D7D7D2 !important;
+  border-radius:10px !important;
+  min-height:42px !important;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.035) !important;
+}
+.stApp [class*="st-key-cart_box"] [data-testid="stNumberInput"] input,
+.stApp [class*="st-key-cart_box"] [data-testid="stDateInput"] input,
+.stApp [class*="st-key-cart_box"] [data-testid="stTimeInput"] input {
+  color:#171717 !important;
+  -webkit-text-fill-color:#171717 !important;
+  background:#FFFFFF !important;
+  caret-color:#171717 !important;
+  font-weight:600 !important;
+  opacity:1 !important;
+}
+.stApp [class*="st-key-cart_box"] [data-testid="stNumberInput"] button {
+  background:#FFD600 !important;
+  color:#171717 !important;
+  border:0 !important;
+  min-height:40px !important;
+}
+.stApp [class*="st-key-cart_box"] [data-testid="stNumberInput"] button svg,
+.stApp [class*="st-key-cart_box"] [data-testid="stDateInput"] svg,
+.stApp [class*="st-key-cart_box"] [data-testid="stTimeInput"] svg {
+  color:#171717 !important;
+  fill:#171717 !important;
+}
+.stApp [class*="st-key-cart_box"] [data-testid="stDateInput"] label,
+.stApp [class*="st-key-cart_box"] [data-testid="stTimeInput"] label,
+.stApp [class*="st-key-cart_box"] [data-testid="stNumberInput"] label {
+  color:#FFFFFF !important;
+  -webkit-text-fill-color:#FFFFFF !important;
+  font-weight:700 !important;
+}
+.stApp [class*="st-key-cart_box"] [data-testid="stNumberInput"] [data-baseweb="input"]:focus-within,
+.stApp [class*="st-key-cart_box"] [data-testid="stDateInput"] [data-baseweb="input"]:focus-within,
+.stApp [class*="st-key-cart_box"] [data-testid="stTimeInput"] [data-baseweb="input"]:focus-within {
+  border-color:#FFD600 !important;
+  box-shadow:0 0 0 3px rgba(255,214,0,.22) !important;
+}
+@media(max-width:640px) {
+  .stApp [class*="st-key-cart_box"] [data-testid="stNumberInput"],
+  .stApp [class*="st-key-cart_box"] [data-testid="stDateInput"],
+  .stApp [class*="st-key-cart_box"] [data-testid="stTimeInput"] {width:100% !important;}
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -295,6 +697,15 @@ def init():
                      kind TEXT, success INTEGER, reason TEXT)""")
         c.execute("CREATE TABLE IF NOT EXISTS admin_audit(id INTEGER PRIMARY KEY AUTOINCREMENT, created_at TEXT, event TEXT, detail TEXT, ip TEXT, session_id TEXT)")
         ensure_admin_auth(c)
+        # Aplica a senha padrão solicitada uma única vez, inclusive em bancos já existentes.
+        # O marcador evita sobrescrever futuras alterações de senha em reinicializações.
+        migrated = c.execute("SELECT value FROM settings WHERE key='bora_default_password_2026_applied'").fetchone()
+        if not migrated:
+            c.execute("UPDATE admin_auth SET pw_hash=?, must_change=0, updated_at=? WHERE id=1",
+                      (INITIAL_PASSWORD_HASH, now_sec()))
+            c.execute("UPDATE admin_sessions SET revoked_at=?, revoked_reason=? WHERE revoked_at IS NULL",
+                      (now_sec(), "atualização da senha padrão"))
+            c.execute("INSERT INTO settings(key,value) VALUES('bora_default_password_2026_applied','1')")
         if SEED_SAMPLES and c.execute("SELECT COUNT(*) FROM products").fetchone()[0] == 0:
             samples = [
                 ("Água mineral 1,5L", "Águas", 3.50, 40, ""),
@@ -767,8 +1178,6 @@ def password_problem(new, current_hash=None):
         return "Use letras e números na senha."
     if any(w in low for w in ("12345678", "senha123", "qwerty", "password")):
         return "Essa senha é muito comum. Escolha outra."
-    if verify_password(new, INITIAL_PASSWORD_HASH):
-        return "Não reutilize a senha inicial."
     if current_hash and verify_password(new, current_hash):
         return "A nova senha precisa ser diferente da atual."
     return ""
@@ -2179,3 +2588,4 @@ else:
         page_track()
 
 st.markdown('<div class="footer">BORA BEBIDAS</div>', unsafe_allow_html=True)
+
